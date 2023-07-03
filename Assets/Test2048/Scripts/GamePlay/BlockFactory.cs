@@ -9,6 +9,7 @@ namespace Test2048.Scripts.GamePlay
     {
         private readonly DiContainer _diContainer;
         private InputService _inputService;
+        private SoundController _soundController;
         private Transform _spawnPoint;
         private Transform _spawnParent;
         Object blockPrefab;
@@ -35,6 +36,8 @@ namespace Test2048.Scripts.GamePlay
             block.setType(type);
             blocks.Add(block);
             block.OnBlockDestroy += DestroyBlock;
+            block.canCollision = false;
+            block.OnCollisionSound += _soundController.PlayCollisionSound;
         }
         
         public void Create(int type, Vector3 pos)
@@ -45,14 +48,16 @@ namespace Test2048.Scripts.GamePlay
             block.GetRigidbody().isKinematic = false;
             blocks.Add(block);
             block.OnBlockDestroy += DestroyBlock;
+            block.OnCollisionSound += _soundController.PlayCollisionSound;
         }
         
 
         [Inject]
-        public BlockFactory(DiContainer diContainer , InputService inputService)
+        public BlockFactory(DiContainer diContainer , InputService inputService , SoundController soundController)
         {
             _inputService = inputService;
             _diContainer = diContainer;
+            _soundController = soundController;
             blocks = new List<Block>();
         }
 

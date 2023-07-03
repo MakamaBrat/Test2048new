@@ -45,21 +45,19 @@ public class InputService : MonoBehaviour
         StartCoroutine("blockMoving");
     }
     public void ThrowBlock()
-    {
+    {     StopCoroutine("blockMoving");
         _sliderMoveView.SetSliderMove(true);
-        StopCoroutine("blockMoving");
         _blockMover.MoveBlock(_block.GetRigidbody());
-        this._block = null;
+        _block.canCollision = true;
         _sliderMoveView.SetSliderMove(false);
         _lifeCircle.MakeCheckForAtLeastOneMovedBlock();
-
+        this._block = null;
     }
     private IEnumerator blockMoving()
     {
         while (true)
         {
-            if (_block == null)
-                yield return null;
+           
             
             float targetX = _isMovingRight ? _initialPosition.x + Distance : _initialPosition.x - Distance;
             Vector3 targetPosition = new Vector3(targetX, _block.transform.position.y, _block.transform.position.z);

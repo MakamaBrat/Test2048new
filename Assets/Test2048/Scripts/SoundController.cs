@@ -2,45 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// клас для роботи зі звуком
+// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 public class SoundController : MonoBehaviour
 {
-    [SerializeField]public AudioSource soundUI;
-    [SerializeField] public AudioSource soundGamePlay;
-    [SerializeField] public AudioSource soundGameMusic;
-    public AudioClip clickSound;
-    public AudioClip goodHitSound;
-    public AudioClip badHitSound;
+    [SerializeField] public AudioSource soundMusic;
+    [SerializeField] public AudioSource soundEffects;
+    public AudioClip collisionSound;
     public AudioClip pushSound;
+
+
+
+    public void PlayCollisionSound()
+    {
+        playSoundEffect(collisionSound);
+    }
+
+    public void PlayPushSound()
+    {
+        playSoundEffect(pushSound);
+    }
     
-    public void playSoundUI(AudioClip clip)
+    
+    private void playSoundEffect(AudioClip clip)
     {
-        soundUI.clip = clip;
-        soundUI.Play();
+        soundEffects.clip = clip;
+        soundEffects.Play();
+     
     }
 
-    public void playSoundGameplay(AudioClip clip)
-    {
-        soundGamePlay.clip = clip;
-        soundGamePlay.Play();
-    }
 
-    public void playSoundMusic(AudioClip clip)
-    {
-        soundGameMusic.clip = clip;
-        soundGameMusic.Play();
-    }
-
-    public void setVolumeEffects(float volume)
-    {
-        soundUI.volume = volume;
-        soundGamePlay.volume = volume;
-    }
-
-    public void setVolumeMusic(float volume)
-    {
-        soundGameMusic.volume = volume;
-    }
-
+   
 }

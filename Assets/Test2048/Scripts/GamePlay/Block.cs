@@ -11,13 +11,15 @@ public class Block : MonoBehaviour
     public int Type;
     [SerializeField] private TextMeshProUGUI[] textSides;
     private IBlockFactory _blockFactory;
+    private MainValues _mainValues;
     private Rigidbody rb;
     
     public bool hasMerged = false;
+    public bool canCollision;
     public delegate void DestroyHandler(Block block);
 
     public event DestroyHandler OnBlockDestroy;
-
+    public Action OnCollisionSound;
     private void OnDestroy()
     {
        OnBlockDestroy.Invoke(this);
@@ -25,6 +27,7 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
+        canCollision = true;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -37,9 +40,10 @@ public class Block : MonoBehaviour
     }
 
     [Inject]
-    public void Construct(IBlockFactory _factory)
+    public void Construct(IBlockFactory _factory, MainValues mainValues)
     {
         _blockFactory = _factory;
+        _mainValues = mainValues;
     }
     
 
@@ -56,7 +60,7 @@ public class Block : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Block>(out Block block))
         {
-            if (Type == block.Type)
+            if (Type == block.Type && canCollision)
             {
                 hasMerged = true;
                 if (block.hasMerged == true)
@@ -64,7 +68,8 @@ public class Block : MonoBehaviour
                     
                         Destroy(block.gameObject);
                         _blockFactory.Create(Type * Type, transform.position);
-
+                        _mainValues.SetScore(_mainValues.Score+1);
+                        OnCollisionSound?.Invoke();
                         Destroy(gameObject);
                     
                 }

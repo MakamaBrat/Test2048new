@@ -7,7 +7,6 @@ public class LocationInstaller : MonoInstaller
 {
     [SerializeField]private Transform spawnPoint;
     [SerializeField]private Transform spawnParent;
-
     public override void InstallBindings()
     {
        BindBlockMover();
@@ -16,8 +15,16 @@ public class LocationInstaller : MonoInstaller
        BindBlockFactory();
        FactoryInitialyze();
        BindSliderMoveView();
+       BindMainValues();
+      
     }
 
+    private void BindMainValues()
+    {
+        Container
+            .Bind<MainValues>().FromComponentInHierarchy().AsSingle();
+    }
+    
     private void BindBlockFactory()
     {
         Container
@@ -55,4 +62,6 @@ public class LocationInstaller : MonoInstaller
         Container
             .Bind<SliderMoveView>().FromComponentInHierarchy().AsSingle();
     }
+
+    
 }

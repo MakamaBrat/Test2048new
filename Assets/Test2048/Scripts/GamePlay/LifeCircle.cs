@@ -11,7 +11,7 @@ public class LifeCircle : MonoBehaviour
     private BlockMover _blockMover;
     private InputService _inputService;
     private IBlockFactory _blockFactory;
-    
+    private bool canClick;
     [Inject]
     public void Construct(BlockMover blockMover, IBlockFactory blockFactory, InputService inputService)
     {
@@ -22,15 +22,19 @@ public class LifeCircle : MonoBehaviour
 
     private void Start()
     {
-        
-        
+
+        canClick = true;
     }
 
     public void SpawnBlockButtonPointedDown()
     {
+        if(!canClick)
+            return;
         clearSpaceForNewSpawn();
         _blockFactory.CreateOnSpawnPoint(2);
         buttonSpawn.SetActive(false);
+        canClick = false;
+        StartCoroutine("makeCanClick");
     }
 
     public void MakeCheckForAtLeastOneMovedBlock()
@@ -50,7 +54,7 @@ public class LifeCircle : MonoBehaviour
 
     private void clearSpaceForNewSpawn()
     {
-        Collider[] colliders = Physics.OverlapBox(Camera.main.transform.position, new Vector3(3,1,1));
+        Collider[] colliders = Physics.OverlapBox(Camera.main.transform.position, new Vector3(3,3,1));
 
         foreach (Collider collider in colliders)
         {
@@ -60,6 +64,12 @@ public class LifeCircle : MonoBehaviour
                 Destroy(block.gameObject);
             }
         }
+    }
+
+    IEnumerator makeCanClick()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canClick = true;
     }
     
     

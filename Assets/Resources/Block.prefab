@@ -800,6 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657c5929416fc4548bf7a7cc526da517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   textSides:
   - {fileID: 7115544250668342276}
   - {fileID: 2889332945349907912}
@@ -807,6 +808,7 @@ MonoBehaviour:
   - {fileID: 2982149712293165434}
   - {fileID: 6618701297225427105}
   - {fileID: 528734578023297457}
+  hasMerged: 0
 --- !u!54 &6442829800051282976
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -829,7 +831,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
